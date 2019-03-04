@@ -1,0 +1,122 @@
+%% Hw2 Q4
+clc
+Lena = imread('lena512.bmp');
+Man=imread('man.png');
+fft_lena=fftshift(double(fft2(Lena)));
+fft_man=fftshift(double(fft2(Man)));
+%% plot Lena
+figure('name','Property of lena','Position', [200 200 1800 600])
+subplot 131
+imshow(Lena);
+title('This is Lena');
+subplot 132
+colormap gray;
+magnitude=log(abs(fft_lena));
+imagesc(magnitude);
+title('Magnitude of Lena');
+subplot 133
+colormap gray;
+Phase=angle(fft_lena);
+imagesc(Phase);
+title('Phase of Lena');
+
+%% plot Man
+figure('name','Property of Man','Position', [200 200 1800 600])
+subplot 131
+imshow(Man);
+title('This is a Man');
+subplot 132
+colormap gray;
+magnitude_man=log(abs(fft_man));
+imagesc(magnitude_man);
+title('Magnitude of that man');
+subplot 133
+colormap gray;
+Phase_man=angle(fft_man);
+imagesc(Phase_man);
+title('Phase of that man');
+
+%% Combination
+fft_Mix=magnitude_man.*exp(1i.*Phase);
+Mix_pic=double(abs(ifft2(ifftshift(fft_Mix))));
+figure('name','Mixed monster','Position', [200 200 1800 600])
+subplot 131
+imshow(Mix_pic);
+title('This is a Mixed One');
+subplot 132
+colormap gray;
+imagesc(magnitude_man);
+title('Magnitude of that man');
+subplot 133
+colormap gray;
+imagesc(angle(Phase));
+title('Phase of Lena');
+
+%% (B)
+%% Lena
+clc
+n=505;
+for i=1:8:n
+    for j=1:8:n
+        Sub_part=Lena(i:i+7,j:j+7);
+        J(i:i+7,j:j+7)=dct2(Sub_part);
+        J_new(i:i+7,j:j+7)=lowCoefRemoval(J(i:i+7,j:j+7));
+        Re_plot(i:i+7,j:j+7)=idct2(J_new(i:i+7,j:j+7));
+        
+        DFT(i:i+7,j:j+7)=fftshift(double(fft2(Sub_part)));
+        DFT_new(i:i+7,j:j+7)=lowCoefRemoval(DFT(i:i+7,j:j+7));
+        DFT_Re_plot(i:i+7,j:j+7)=double(abs(ifft2(ifftshift(DFT_new(i:i+7,j:j+7)))));
+    end
+end
+figure('name','DCT/DFT fighting','Position', [200 50 1800 900])
+subplot 241
+colormap gray;
+magnitude_DCT=log(abs(J));
+imagesc(magnitude_DCT);
+
+subplot 242
+colormap gray;
+magnitude_DCT_filtered=log(abs(J_new+1));
+imagesc(magnitude_DCT_filtered);
+
+subplot 243
+colormap gray;
+magnitude_DFT=log(abs(DFT));
+imagesc(magnitude_DFT);
+
+subplot 244
+colormap gray;
+magnitude_new_DFT=log(abs(DFT_new+1));
+imagesc(magnitude_new_DFT);
+
+subplot 245
+imagesc(Lena);
+subplot 246
+imagesc(Re_plot);
+subplot 247
+imagesc(Lena);
+subplot 248
+imagesc(DFT_Re_plot);
+
+%% (C)
+Coin=imread('eight.tif') ;
+figure('name','IMG-LP-HP-Sharp','Position', [200 200 2000 500])
+subplot 141
+colormap gray;
+imagesc(Coin);
+
+h1=[0,   1/4,  0;
+    1/4   0   1/4;
+    0    1/4   0];
+Coin_LP = imfilter(Coin, h1);
+Coin_HP =abs(Coin-Coin_LP);
+subplot 142
+colormap gray;
+imagesc(Coin_LP);
+subplot 143
+colormap gray;
+imagesc(Coin_HP);
+Coin_sharp=Coin+2.*Coin_HP;
+subplot 144
+colormap gray;
+imagesc(Coin_sharp);
