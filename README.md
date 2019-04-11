@@ -9,6 +9,7 @@ Hence, I suppose it can be ran smoothly with any warnings/bugs.
 No full copy and paste plz. it is not good for both you and me.
 
 ![Screenshot](https://github.com/djzts/EE5561/blob/master/EE5561HW2/lena512.bmp)
+## HW3 example output
 ![Screenshot](https://github.com/djzts/EE5561/blob/master/EE5561hw3/example.jpg)
 
 
