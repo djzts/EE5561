@@ -21,7 +21,7 @@ for i=1:256/n
         Block(i,j,:,:)=Shitted_Cameraman(n*(i-1)+1:n*i,n*(j-1)+1:n*j); % E(yyT) is 8*8 block
         %Block(i,j,:,:)=Cameraman(n*(i-1)+1:n*i,n*(j-1)+1:n*j);
         temp= reshape(Block(i,j,:,:),[n*n,1]);                         %reshape E(yyT) to 64*1 vector
-        Block_xx2(i,j,:,:)=var(temp)-sigma^2;   %sigma^2*eye(n^2);%sigma^2x*I(in practice extimate)
+        Block_xx2(i,j,:,:)=var(temp)-sigma^2;   %sum(yijyij)-uxux-sigma^2(in practice extimate)
         
         %sigmaxI=reshape(Block_xx2(i,j,:,:),[n^2,n^2]);
         %sigmaxI=sigma_r*eye(64);
